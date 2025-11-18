@@ -146,12 +146,12 @@ const Torneos = () => {
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all overflow-hidden"
               >
                 <div className="p-6">
-                  <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-start gap-3 mb-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="flex flex-col lg:flex-row justify-between items-start gap-6">
+                    <div className="flex-1 w-full">
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center flex-shrink-0">
                           <svg
-                            className="w-6 h-6 text-white"
+                            className="w-7 h-7 text-white"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -164,18 +164,18 @@ const Torneos = () => {
                             />
                           </svg>
                         </div>
-                        <div className="flex-1">
-                          <h2 className="text-2xl font-black text-gray-900 mb-1">
+                        <div className="flex-1 min-w-0">
+                          <h2 className="text-2xl font-black text-gray-900 mb-1 break-words">
                             {torneo.torn_Nombre}
                           </h2>
                           {torneo.torn_Descripcion && (
-                            <p className="text-gray-600 text-sm">
+                            <p className="text-gray-600 text-sm line-clamp-2">
                               {torneo.torn_Descripcion}
                             </p>
                           )}
                         </div>
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-bold ${getEstadoBadge(
+                          className={`px-3 py-1 rounded-full text-xs font-bold flex-shrink-0 ${getEstadoBadge(
                             torneo.torn_Estado
                           )}`}
                         >
@@ -183,10 +183,10 @@ const Torneos = () => {
                         </span>
                       </div>
 
-                      <div className="grid sm:grid-cols-3 gap-4 mt-4">
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-lg">
                           <svg
-                            className="w-4 h-4"
+                            className="w-4 h-4 flex-shrink-0"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -198,16 +198,20 @@ const Torneos = () => {
                               d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                             />
                           </svg>
-                          <span>
+                          <span className="font-medium">
                             {new Date(
                               torneo.torn_FechaInicio
-                            ).toLocaleDateString()}
+                            ).toLocaleDateString("es-MX", {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            })}
                           </span>
                         </div>
                         {torneo.torn_Tipo && (
-                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-lg">
                             <svg
-                              className="w-4 h-4"
+                              className="w-4 h-4 flex-shrink-0"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -219,13 +223,15 @@ const Torneos = () => {
                                 d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
                               />
                             </svg>
-                            <span>{torneo.torn_Tipo}</span>
+                            <span className="font-medium">
+                              {torneo.torn_Tipo}
+                            </span>
                           </div>
                         )}
                         {torneo.torn_NumeroEquipos && (
-                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-lg">
                             <svg
-                              className="w-4 h-4"
+                              className="w-4 h-4 flex-shrink-0"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -237,28 +243,30 @@ const Torneos = () => {
                                 d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                               />
                             </svg>
-                            <span>{torneo.torn_NumeroEquipos} equipos</span>
+                            <span className="font-medium">
+                              {torneo.torn_NumeroEquipos} equipos
+                            </span>
                           </div>
                         )}
                       </div>
                     </div>
 
-                    <div className="flex sm:flex-col gap-2">
+                    <div className="flex lg:flex-col gap-2 w-full lg:w-auto">
                       <Link
                         to={`/torneos/equipos/${torneo.torn_Id}`}
-                        className="bg-green-100 hover:bg-green-200 text-green-700 px-4 py-2 rounded-lg font-bold transition text-center text-sm whitespace-nowrap"
+                        className="flex-1 lg:flex-initial bg-green-100 hover:bg-green-200 text-green-700 px-5 py-2.5 rounded-lg font-bold transition text-center text-sm whitespace-nowrap"
                       >
                         Ver Equipos
                       </Link>
                       <Link
                         to={`/torneos/editar/${torneo.torn_Id}`}
-                        className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-bold transition text-center text-sm"
+                        className="flex-1 lg:flex-initial bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2.5 rounded-lg font-bold transition text-center text-sm"
                       >
                         Editar
                       </Link>
                       <button
                         onClick={() => eliminarTorneo(torneo.torn_Id)}
-                        className="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-lg font-bold transition text-sm"
+                        className="flex-1 lg:flex-initial bg-red-100 hover:bg-red-200 text-red-700 px-5 py-2.5 rounded-lg font-bold transition text-sm whitespace-nowrap"
                       >
                         Eliminar
                       </button>
