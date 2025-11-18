@@ -20,6 +20,18 @@ export const API_ENDPOINTS = {
   inscribirEquipo: `${API_CONFIG.baseURL}/api/torneos/inscribir-equipo`,
   equiposTorneo: (id) => `${API_CONFIG.baseURL}/api/torneos/${id}/equipos`,
   cambiarEstadoTorneo: (id) => `${API_CONFIG.baseURL}/api/torneos/${id}/estado`,
+
+  // QR Capitanes (TIPO 1: Admin genera para convertir usuarios en capitanes)
+  generarQRCapitan: `${API_CONFIG.baseURL}/api/qr/generar-capitan`,
+  validarQRCapitan: `${API_CONFIG.baseURL}/api/qr/validar-capitan`,
+  listarQRCapitanes: `${API_CONFIG.baseURL}/api/qr/capitanes`,
+
+  // QR Equipos (TIPO 2: Capitán genera para inscribir jugadores)
+  generarQREquipo: (equipoId) =>
+    `${API_CONFIG.baseURL}/api/qr/generar-equipo/${equipoId}`,
+  listarQREquipos: `${API_CONFIG.baseURL}/api/qr/equipos`,
+  obtenerQREquipo: (equipoId) =>
+    `${API_CONFIG.baseURL}/api/qr/equipo/${equipoId}`,
 };
 
 export default API_CONFIG;

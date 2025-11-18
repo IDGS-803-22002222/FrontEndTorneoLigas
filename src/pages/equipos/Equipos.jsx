@@ -10,8 +10,14 @@ const Equipos = () => {
   const [error, setError] = useState("");
   const [qrModalAbierto, setQrModalAbierto] = useState(false);
   const [equipoSeleccionado, setEquipoSeleccionado] = useState(null);
+  const [usuario, setUsuario] = useState(null);
+  const [generandoQR, setGenerandoQR] = useState(false);
 
   useEffect(() => {
+    const usuarioGuardado = localStorage.getItem("usuario");
+    if (usuarioGuardado) {
+      setUsuario(JSON.parse(usuarioGuardado));
+    }
     cargarEquipos();
   }, []);
 
@@ -54,6 +60,47 @@ const Equipos = () => {
     }
   };
 
+  const generarNuevoQR = async (equipoId) => {
+    setGenerandoQR(true);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(API_ENDPOINTS.generarQREquipo(equipoId), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.isSuccess) {
+        // Recargar la lista completa de equipos
+        await cargarEquipos();
+
+        // Si hay un modal abierto, actualizar el equipo seleccionado
+        if (equipoSeleccionado && equipoSeleccionado.equi_Id === equipoId) {
+          const responseEquipo = await fetch(
+            API_ENDPOINTS.equipoById(equipoId)
+          );
+          const dataEquipo = await responseEquipo.json();
+
+          if (dataEquipo.isSuccess) {
+            setEquipoSeleccionado(dataEquipo.data);
+          }
+        }
+
+        alert("¡Nuevo código QR generado exitosamente!");
+      } else {
+        alert(data.message || "Error al generar QR");
+      }
+    } catch (err) {
+      alert("Error de conexión");
+    } finally {
+      setGenerandoQR(false);
+    }
+  };
+
   const abrirModalQR = (equipo) => {
     setEquipoSeleccionado(equipo);
     setQrModalAbierto(true);
@@ -74,7 +121,6 @@ const Equipos = () => {
   const descargarQR = () => {
     if (!equipoSeleccionado) return;
 
-    // Crear un SVG del QR usando la API de QRServer
     const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(
       equipoSeleccionado.equi_CodigoQR
     )}`;
@@ -88,6 +134,15 @@ const Equipos = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  // Verificar si el usuario puede generar QR (Admin o Capitán dueño del equipo)
+  const puedeGenerarQR = (equipo) => {
+    if (!usuario) return false;
+    return (
+      usuario.rol_Nombre === "Administrador" ||
+      (usuario.rol_Nombre === "Capitán" && equipo.usua_Id === usuario.usua_Id)
+    );
   };
 
   if (cargando) {
@@ -113,25 +168,28 @@ const Equipos = () => {
               Gestiona los equipos del sistema
             </p>
           </div>
-          <Link
-            to="/equipos/crear"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg flex items-center gap-2"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          {(usuario?.rol_Nombre === "Administrador" ||
+            usuario?.rol_Nombre === "Capitán") && (
+            <Link
+              to="/equipos/crear"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg flex items-center gap-2"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            Nuevo Equipo
-          </Link>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              Nuevo Equipo
+            </Link>
+          )}
         </div>
 
         {/* Error */}
@@ -160,12 +218,15 @@ const Equipos = () => {
             <p className="text-gray-500 text-lg font-semibold">
               No hay equipos registrados
             </p>
-            <Link
-              to="/equipos/crear"
-              className="text-blue-600 hover:text-blue-700 font-bold mt-2 inline-block"
-            >
-              Crear el primer equipo
-            </Link>
+            {(usuario?.rol_Nombre === "Administrador" ||
+              usuario?.rol_Nombre === "Capitán") && (
+              <Link
+                to="/equipos/crear"
+                className="text-blue-600 hover:text-blue-700 font-bold mt-2 inline-block"
+              >
+                Crear el primer equipo
+              </Link>
+            )}
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -177,7 +238,6 @@ const Equipos = () => {
                 {/* Header con logo */}
                 <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white relative">
                   <div className="flex items-start gap-4">
-                    {/* Logo del equipo */}
                     <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
                       {equipo.equi_Logo ? (
                         <img
@@ -210,7 +270,6 @@ const Equipos = () => {
                       )}
                     </div>
 
-                    {/* Nombre y colores */}
                     <div className="flex-1">
                       <h3 className="text-xl font-black mb-1 break-words">
                         {equipo.equi_Nombre}
@@ -223,50 +282,113 @@ const Equipos = () => {
                           </p>
                         </div>
                       )}
+                      {equipo.usua_NombreCompleto && (
+                        <p className="text-blue-100 text-xs mt-1">
+                          Capitán: {equipo.usua_NombreCompleto}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
 
                 {/* Cuerpo */}
                 <div className="p-6 space-y-4">
-                  {/* Botón de QR destacado */}
-                  {equipo.equi_CodigoQR && (
-                    <button
-                      onClick={() => abrirModalQR(equipo)}
-                      className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-3 rounded-xl font-bold transition shadow-lg flex items-center justify-center gap-2"
-                    >
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                  {/* Botones de QR - Visible para Admin y Capitán del equipo */}
+                  {puedeGenerarQR(equipo) && (
+                    <>
+                      {equipo.equi_CodigoQR && (
+                        <button
+                          onClick={() => abrirModalQR(equipo)}
+                          className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-3 rounded-xl font-bold transition shadow-lg flex items-center justify-center gap-2"
+                        >
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
+                            />
+                          </svg>
+                          Ver Código QR
+                        </button>
+                      )}
+
+                      <button
+                        onClick={() => generarNuevoQR(equipo.equi_Id)}
+                        disabled={generandoQR}
+                        className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-4 py-3 rounded-xl font-bold transition shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
-                        />
-                      </svg>
-                      Ver Código QR
-                    </button>
+                        {generandoQR ? (
+                          <>
+                            <svg
+                              className="animate-spin h-5 w-5"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                                fill="none"
+                              />
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                              />
+                            </svg>
+                            <span>Generando...</span>
+                          </>
+                        ) : (
+                          <>
+                            <svg
+                              className="w-5 h-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                              />
+                            </svg>
+                            {equipo.equi_CodigoQR
+                              ? "Regenerar QR"
+                              : "Generar QR"}
+                          </>
+                        )}
+                      </button>
+                    </>
                   )}
 
-                  {/* Botones de acción */}
-                  <div className="grid grid-cols-2 gap-2">
-                    <Link
-                      to={`/equipos/editar/${equipo.equi_Id}`}
-                      className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-lg font-bold transition text-center text-sm"
-                    >
-                      Editar
-                    </Link>
-                    <button
-                      onClick={() => eliminarEquipo(equipo.equi_Id)}
-                      className="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2.5 rounded-lg font-bold transition text-sm"
-                    >
-                      Eliminar
-                    </button>
-                  </div>
+                  {/* Botones de acción - Solo para Admin y Capitán del equipo */}
+                  {puedeGenerarQR(equipo) && (
+                    <div className="grid grid-cols-2 gap-2">
+                      <Link
+                        to={`/equipos/editar/${equipo.equi_Id}`}
+                        className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-lg font-bold transition text-center text-sm"
+                      >
+                        Editar
+                      </Link>
+                      {usuario?.rol_Nombre === "Administrador" && (
+                        <button
+                          onClick={() => eliminarEquipo(equipo.equi_Id)}
+                          className="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2.5 rounded-lg font-bold transition text-sm"
+                        >
+                          Eliminar
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -278,7 +400,6 @@ const Equipos = () => {
       {qrModalAbierto && equipoSeleccionado && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
-            {/* Header del modal */}
             <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -312,7 +433,9 @@ const Equipos = () => {
                     <h3 className="text-xl font-black">
                       {equipoSeleccionado.equi_Nombre}
                     </h3>
-                    <p className="text-blue-100 text-sm">Código QR</p>
+                    <p className="text-blue-100 text-sm">
+                      Código QR Inscripción
+                    </p>
                   </div>
                 </div>
                 <button
@@ -336,9 +459,7 @@ const Equipos = () => {
               </div>
             </div>
 
-            {/* Cuerpo del modal */}
             <div className="p-6 space-y-6">
-              {/* Imagen del QR */}
               <div className="bg-white border-4 border-dashed border-gray-300 rounded-2xl p-6 flex items-center justify-center">
                 <img
                   src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(
@@ -349,7 +470,6 @@ const Equipos = () => {
                 />
               </div>
 
-              {/* Código de texto */}
               <div className="bg-gray-50 rounded-xl p-4">
                 <p className="text-xs font-bold text-gray-700 mb-2">
                   Código de Inscripción
@@ -359,7 +479,6 @@ const Equipos = () => {
                 </p>
               </div>
 
-              {/* Instrucciones */}
               <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
                 <div className="flex items-start gap-3">
                   <svg
@@ -382,13 +501,13 @@ const Equipos = () => {
                     <p className="text-xs text-blue-700">
                       Los jugadores deben escanear este código QR desde la app
                       móvil para inscribirse al equipo. También pueden ingresar
-                      manualmente el código mostrado arriba.
+                      manualmente el código mostrado arriba. El código es válido
+                      por 1 mes desde su generación.
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Botones de acción */}
               <div className="grid grid-cols-2 gap-3">
                 <button
                   onClick={copiarQR}
@@ -429,6 +548,54 @@ const Equipos = () => {
                   Descargar
                 </button>
               </div>
+
+              {/* Botón regenerar dentro del modal */}
+              {puedeGenerarQR(equipoSeleccionado) && (
+                <button
+                  onClick={() => generarNuevoQR(equipoSeleccionado.equi_Id)}
+                  disabled={generandoQR}
+                  className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-4 py-3 rounded-xl font-bold transition shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  {generandoQR ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      <span>Regenerando...</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        />
+                      </svg>
+                      Regenerar QR Ahora
+                    </>
+                  )}
+                </button>
+              )}
             </div>
           </div>
         </div>

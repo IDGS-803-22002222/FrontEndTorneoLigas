@@ -9,6 +9,7 @@ import Torneos from "../pages/torneos/Torneos";
 import CrearTorneo from "../pages/torneos/CrearTorneo";
 import EditarTorneo from "../pages/torneos/EditarTorneo";
 import EquiposTorneo from "../pages/torneos/EquiposTorneo";
+import GestionQR from "../pages/admin/GestionQR";
 
 export const router = createBrowserRouter([
   {
@@ -26,5 +27,6 @@ export const router = createBrowserRouter([
   { path: "/torneos/crear", element: <CrearTorneo /> },
   { path: "/torneos/editar/:id", element: <EditarTorneo /> },
   { path: "/torneos/equipos/:id", element: <EquiposTorneo /> },
+  { path: "/admin/gestion-qr", element: <GestionQR /> },
   { path: "*", element: <Navigate to="/" replace /> },
 ]);
