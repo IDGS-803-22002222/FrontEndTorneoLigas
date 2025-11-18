@@ -10,6 +10,9 @@ import CrearTorneo from "../pages/torneos/CrearTorneo";
 import EditarTorneo from "../pages/torneos/EditarTorneo";
 import EquiposTorneo from "../pages/torneos/EquiposTorneo";
 import GestionQR from "../pages/admin/GestionQR";
+import Sedes from "../pages/sedes/sedes";
+import CrearSede from "../pages/sedes/CrearSede";
+import EditarSede from "../pages/sedes/EditarSede";
 
 export const router = createBrowserRouter([
   {
@@ -28,5 +31,8 @@ export const router = createBrowserRouter([
   { path: "/torneos/editar/:id", element: <EditarTorneo /> },
   { path: "/torneos/equipos/:id", element: <EquiposTorneo /> },
   { path: "/admin/gestion-qr", element: <GestionQR /> },
+  { path: "/sedes", element: <Sedes /> },
+  { path: "/sedes/crear", element: <CrearSede /> },
+  { path: "/sedes/editar/:id", element: <EditarSede /> },
   { path: "*", element: <Navigate to="/" replace /> },
 ]);

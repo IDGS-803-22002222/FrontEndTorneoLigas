@@ -66,6 +66,12 @@ const Layout = ({ children }) => {
               >
                 Torneos
               </Link>
+              <Link
+                to="/sedes"
+                className="text-gray-300 hover:text-white font-semibold transition"
+              >
+                Sedes
+              </Link>
 
               {/* Menú QR - Solo para Administradores */}
               {usuario.rol_Nombre === "Administrador" && (

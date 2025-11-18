@@ -32,6 +32,13 @@ export const API_ENDPOINTS = {
   listarQREquipos: `${API_CONFIG.baseURL}/api/qr/equipos`,
   obtenerQREquipo: (equipoId) =>
     `${API_CONFIG.baseURL}/api/qr/equipo/${equipoId}`,
+
+  // Sedes
+  sedes: `${API_CONFIG.baseURL}/api/sedes`,
+  sedeById: (id) => `${API_CONFIG.baseURL}/api/sedes/${id}`,
+  crearSede: `${API_CONFIG.baseURL}/api/sedes`,
+  editarSede: `${API_CONFIG.baseURL}/api/sedes`,
+  eliminarSede: (id) => `${API_CONFIG.baseURL}/api/sedes/${id}`,
 };
 
 export default API_CONFIG;
