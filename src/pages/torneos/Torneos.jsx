@@ -8,8 +8,18 @@ const Torneos = () => {
   const [torneos, setTorneos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState("");
+  const [modalEstado, setModalEstado] = useState(false);
+  const [torneoSeleccionado, setTorneoSeleccionado] = useState(null);
+  const [nuevoEstado, setNuevoEstado] = useState("");
+  const [cambiandoEstado, setCambiandoEstado] = useState(false);
+  const [filtroEstado, setFiltroEstado] = useState("Todos");
+  const [usuario, setUsuario] = useState(null);
 
   useEffect(() => {
+    const usuarioGuardado = localStorage.getItem("usuario");
+    if (usuarioGuardado) {
+      setUsuario(JSON.parse(usuarioGuardado));
+    }
     cargarTorneos();
   }, []);
 
@@ -43,12 +53,62 @@ const Torneos = () => {
       const data = await response.json();
 
       if (data.isSuccess) {
+        alert("Torneo eliminado exitosamente");
         cargarTorneos();
       } else {
         alert("Error al eliminar torneo");
       }
     } catch (err) {
       alert("Error de conexión");
+    }
+  };
+
+  const abrirModalEstado = (torneo) => {
+    setTorneoSeleccionado(torneo);
+    setNuevoEstado(torneo.torn_Estado || "Pendiente");
+    setModalEstado(true);
+  };
+
+  const cerrarModalEstado = () => {
+    setModalEstado(false);
+    setTorneoSeleccionado(null);
+    setNuevoEstado("");
+  };
+
+  const cambiarEstadoTorneo = async () => {
+    if (!nuevoEstado) {
+      alert("Selecciona un estado");
+      return;
+    }
+
+    setCambiandoEstado(true);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        API_ENDPOINTS.cambiarEstadoTorneo(torneoSeleccionado.torn_Id),
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(nuevoEstado),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.isSuccess) {
+        alert("Estado actualizado exitosamente");
+        cerrarModalEstado();
+        cargarTorneos();
+      } else {
+        alert("Error al cambiar el estado");
+      }
+    } catch (err) {
+      alert("Error de conexión");
+    } finally {
+      setCambiandoEstado(false);
     }
   };
 
@@ -59,6 +119,18 @@ const Torneos = () => {
       Finalizado: "bg-gray-100 text-gray-800",
     };
     return badges[estado] || "bg-gray-100 text-gray-800";
+  };
+
+  const torneosFiltrados =
+    filtroEstado === "Todos"
+      ? torneos
+      : torneos.filter((t) => t.torn_Estado === filtroEstado);
+
+  const estadisticas = {
+    total: torneos.length,
+    pendientes: torneos.filter((t) => t.torn_Estado === "Pendiente").length,
+    enCurso: torneos.filter((t) => t.torn_Estado === "En Curso").length,
+    finalizados: torneos.filter((t) => t.torn_Estado === "Finalizado").length,
   };
 
   if (cargando) {
@@ -74,38 +146,113 @@ const Torneos = () => {
   return (
     <Layout>
       <div className="container mx-auto px-4 sm:px-6 py-8">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-black text-gray-900">
-              Torneos
-            </h1>
-            <p className="text-gray-600 mt-1">
-              Gestiona los torneos y sus equipos
-            </p>
+        {/* Header con estadísticas */}
+        <div className="mb-8">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-black text-gray-900">
+                Gestión de Torneos
+              </h1>
+              <p className="text-gray-600 mt-1">
+                Administra torneos y sus equipos
+              </p>
+            </div>
+            {usuario?.rol_Nombre === "Administrador" && (
+              <Link
+                to="/torneos/crear"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg flex items-center gap-2"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                Nuevo Torneo
+              </Link>
+            )}
           </div>
-          <Link
-            to="/torneos/crear"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg flex items-center gap-2"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+
+          {/* Estadísticas */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-blue-600">
+              <p className="text-gray-600 text-sm font-semibold">Total</p>
+              <p className="text-3xl font-black text-gray-900">
+                {estadisticas.total}
+              </p>
+            </div>
+            <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-yellow-500">
+              <p className="text-gray-600 text-sm font-semibold">Pendientes</p>
+              <p className="text-3xl font-black text-gray-900">
+                {estadisticas.pendientes}
+              </p>
+            </div>
+            <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-green-500">
+              <p className="text-gray-600 text-sm font-semibold">En Curso</p>
+              <p className="text-3xl font-black text-gray-900">
+                {estadisticas.enCurso}
+              </p>
+            </div>
+            <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-gray-500">
+              <p className="text-gray-600 text-sm font-semibold">Finalizados</p>
+              <p className="text-3xl font-black text-gray-900">
+                {estadisticas.finalizados}
+              </p>
+            </div>
+          </div>
+
+          {/* Filtros */}
+          <div className="bg-white rounded-xl shadow-lg p-4 flex flex-wrap gap-2">
+            <button
+              onClick={() => setFiltroEstado("Todos")}
+              className={`px-4 py-2 rounded-lg font-bold transition ${
+                filtroEstado === "Todos"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            Nuevo Torneo
-          </Link>
+              Todos ({torneos.length})
+            </button>
+            <button
+              onClick={() => setFiltroEstado("Pendiente")}
+              className={`px-4 py-2 rounded-lg font-bold transition ${
+                filtroEstado === "Pendiente"
+                  ? "bg-yellow-500 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              Pendientes ({estadisticas.pendientes})
+            </button>
+            <button
+              onClick={() => setFiltroEstado("En Curso")}
+              className={`px-4 py-2 rounded-lg font-bold transition ${
+                filtroEstado === "En Curso"
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              En Curso ({estadisticas.enCurso})
+            </button>
+            <button
+              onClick={() => setFiltroEstado("Finalizado")}
+              className={`px-4 py-2 rounded-lg font-bold transition ${
+                filtroEstado === "Finalizado"
+                  ? "bg-gray-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              Finalizados ({estadisticas.finalizados})
+            </button>
+          </div>
         </div>
 
-        {/* Error */}
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6">
             {error}
@@ -113,7 +260,7 @@ const Torneos = () => {
         )}
 
         {/* Lista de torneos */}
-        {torneos.length === 0 ? (
+        {torneosFiltrados.length === 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
             <svg
               className="w-16 h-16 text-gray-300 mx-auto mb-4"
@@ -129,18 +276,13 @@ const Torneos = () => {
               />
             </svg>
             <p className="text-gray-500 text-lg font-semibold">
-              No hay torneos registrados
+              No hay torneos{" "}
+              {filtroEstado !== "Todos" && filtroEstado.toLowerCase()}
             </p>
-            <Link
-              to="/torneos/crear"
-              className="text-blue-600 hover:text-blue-700 font-bold mt-2 inline-block"
-            >
-              Crear el primer torneo
-            </Link>
           </div>
         ) : (
           <div className="grid gap-6">
-            {torneos.map((torneo) => (
+            {torneosFiltrados.map((torneo) => (
               <div
                 key={torneo.torn_Id}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all overflow-hidden"
@@ -251,26 +393,34 @@ const Torneos = () => {
                       </div>
                     </div>
 
-                    <div className="flex lg:flex-col gap-2 w-full lg:w-auto">
-                      <Link
-                        to={`/torneos/equipos/${torneo.torn_Id}`}
-                        className="flex-1 lg:flex-initial bg-green-100 hover:bg-green-200 text-green-700 px-5 py-2.5 rounded-lg font-bold transition text-center text-sm whitespace-nowrap"
-                      >
-                        Ver Equipos
-                      </Link>
-                      <Link
-                        to={`/torneos/editar/${torneo.torn_Id}`}
-                        className="flex-1 lg:flex-initial bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2.5 rounded-lg font-bold transition text-center text-sm"
-                      >
-                        Editar
-                      </Link>
-                      <button
-                        onClick={() => eliminarTorneo(torneo.torn_Id)}
-                        className="flex-1 lg:flex-initial bg-red-100 hover:bg-red-200 text-red-700 px-5 py-2.5 rounded-lg font-bold transition text-sm whitespace-nowrap"
-                      >
-                        Eliminar
-                      </button>
-                    </div>
+                    {usuario?.rol_Nombre === "Administrador" && (
+                      <div className="flex lg:flex-col gap-2 w-full lg:w-auto">
+                        <button
+                          onClick={() => abrirModalEstado(torneo)}
+                          className="flex-1 lg:flex-initial bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg font-bold transition text-center text-sm whitespace-nowrap"
+                        >
+                          Cambiar Estado
+                        </button>
+                        <Link
+                          to={`/torneos/equipos/${torneo.torn_Id}`}
+                          className="flex-1 lg:flex-initial bg-green-100 hover:bg-green-200 text-green-700 px-5 py-2.5 rounded-lg font-bold transition text-center text-sm whitespace-nowrap"
+                        >
+                          Ver Equipos
+                        </Link>
+                        <Link
+                          to={`/torneos/editar/${torneo.torn_Id}`}
+                          className="flex-1 lg:flex-initial bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2.5 rounded-lg font-bold transition text-center text-sm"
+                        >
+                          Editar
+                        </Link>
+                        <button
+                          onClick={() => eliminarTorneo(torneo.torn_Id)}
+                          className="flex-1 lg:flex-initial bg-red-100 hover:bg-red-200 text-red-700 px-5 py-2.5 rounded-lg font-bold transition text-sm whitespace-nowrap"
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -278,6 +428,92 @@ const Torneos = () => {
           </div>
         )}
       </div>
+
+      {/* Modal Cambiar Estado */}
+      {modalEstado && torneoSeleccionado && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
+            <div className="bg-gradient-to-r from-purple-600 to-purple-700 p-6 text-white rounded-t-2xl">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-black">
+                  Cambiar Estado del Torneo
+                </h3>
+                <button
+                  onClick={cerrarModalEstado}
+                  className="text-white hover:bg-white hover:bg-opacity-20 rounded-lg p-2 transition"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="p-6 space-y-6">
+              <div>
+                <p className="text-sm font-bold text-gray-700 mb-2">Torneo:</p>
+                <p className="text-lg font-black text-gray-900">
+                  {torneoSeleccionado.torn_Nombre}
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-gray-900 mb-3">
+                  Selecciona el nuevo estado
+                </label>
+                <div className="space-y-2">
+                  {["Pendiente", "En Curso", "Finalizado"].map((estado) => (
+                    <label
+                      key={estado}
+                      className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition ${
+                        nuevoEstado === estado
+                          ? "border-purple-600 bg-purple-50"
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="estado"
+                        value={estado}
+                        checked={nuevoEstado === estado}
+                        onChange={(e) => setNuevoEstado(e.target.value)}
+                        className="w-5 h-5 text-purple-600"
+                      />
+                      <span className="font-bold text-gray-900">{estado}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={cerrarModalEstado}
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-3 rounded-xl font-bold transition"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={cambiarEstadoTorneo}
+                  disabled={cambiandoEstado}
+                  className="flex-1 bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-xl font-bold transition disabled:bg-gray-400"
+                >
+                  {cambiandoEstado ? "Guardando..." : "Guardar Cambios"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </Layout>
   );
 };
