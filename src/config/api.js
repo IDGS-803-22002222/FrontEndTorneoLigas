@@ -1,10 +1,14 @@
 // Configuración centralizada de la API
 const API_CONFIG = {
-  baseURL: "https://localhost:7089", // Cambia solo aquí si el puerto cambia
+  baseURL: "https://localhost:7089",
 };
 
 // Construir URLs completas
 export const API_ENDPOINTS = {
+  //Usuarios
+  usuarios: `${API_CONFIG.baseURL}/api/usuarios`,
+  usuariosPorRol: (rolId) => `${API_CONFIG.baseURL}/api/usuarios/rol/${rolId}`,
+
   // Auth
   login: `${API_CONFIG.baseURL}/api/auth/login`,
   register: `${API_CONFIG.baseURL}/api/auth/register`,
@@ -39,6 +43,10 @@ export const API_ENDPOINTS = {
   crearSede: `${API_CONFIG.baseURL}/api/sedes`,
   editarSede: `${API_CONFIG.baseURL}/api/sedes`,
   eliminarSede: (id) => `${API_CONFIG.baseURL}/api/sedes/${id}`,
+  // Jugadores
+  jugadores: `${API_CONFIG.baseURL}/api/jugadores`,
+  jugadoresPorEquipo: (equipoId) =>
+    `${API_CONFIG.baseURL}/api/jugadores/equipo/${equipoId}`,
 };
 
 export default API_CONFIG;

@@ -11,13 +11,29 @@ const CrearEquipo = () => {
     equi_ColorUniforme: "",
     usua_Id: 0,
   });
+  const [capitanes, setCapitanes] = useState([]);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
-    setFormData((prev) => ({ ...prev, usua_Id: usuario.usua_Id }));
+    cargarCapitanes();
   }, []);
+
+  const cargarCapitanes = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(API_ENDPOINTS.usuariosPorRol(3), {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+
+      if (data.isSuccess) {
+        setCapitanes(data.data);
+      }
+    } catch (err) {
+      console.error("Error al cargar capitanes:", err);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -100,6 +116,30 @@ const CrearEquipo = () => {
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 required
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-gray-900 mb-2">
+                Capitán del Equipo *
+              </label>
+              <select
+                value={formData.usua_Id}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    usua_Id: parseInt(e.target.value),
+                  })
+                }
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                required
+              >
+                <option value={0}>Seleccione un capitán</option>
+                {capitanes.map((capitan) => (
+                  <option key={capitan.usua_Id} value={capitan.usua_Id}>
+                    {capitan.usua_NombreCompleto}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div>

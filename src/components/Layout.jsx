@@ -67,6 +67,12 @@ const Layout = ({ children }) => {
                 Torneos
               </Link>
               <Link
+                to="/jugadores"
+                className="text-gray-300 hover:text-white font-semibold transition"
+              >
+                jugadores
+              </Link>
+              <Link
                 to="/sedes"
                 className="text-gray-300 hover:text-white font-semibold transition"
               >
@@ -163,6 +169,12 @@ const Layout = ({ children }) => {
                   className="text-gray-300 hover:text-white font-semibold px-2 py-2"
                 >
                   Torneos
+                </Link>
+                <Link
+                  to="/jugadores"
+                  className="text-gray-300 hover:text-white font-semibold px-2 py-2"
+                >
+                  Jugadores
                 </Link>
 
                 {/* Menú QR - Solo para Administradores */}

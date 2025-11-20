@@ -13,6 +13,7 @@ import GestionQR from "../pages/admin/GestionQR";
 import Sedes from "../pages/sedes/sedes";
 import CrearSede from "../pages/sedes/CrearSede";
 import EditarSede from "../pages/sedes/EditarSede";
+import Jugadores from "../pages/jugadores/Jugadores";
 
 export const router = createBrowserRouter([
   {
@@ -34,5 +35,6 @@ export const router = createBrowserRouter([
   { path: "/sedes", element: <Sedes /> },
   { path: "/sedes/crear", element: <CrearSede /> },
   { path: "/sedes/editar/:id", element: <EditarSede /> },
+  { path: "/jugadores", element: <Jugadores /> },
   { path: "*", element: <Navigate to="/" replace /> },
 ]);
