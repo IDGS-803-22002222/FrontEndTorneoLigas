@@ -15,6 +15,7 @@ import CrearSede from "../pages/sedes/CrearSede";
 import EditarSede from "../pages/sedes/EditarSede";
 import Jugadores from "../pages/jugadores/Jugadores";
 import GenerarCalendarioIA from "../pages/torneos/GenerarCalendarioIA";
+import PartidosTorneo from "../pages/partidos/PartidosTorneo";
 
 export const router = createBrowserRouter([
   {
@@ -39,4 +40,12 @@ export const router = createBrowserRouter([
   { path: "/jugadores", element: <Jugadores /> },
   { path: "*", element: <Navigate to="/" replace /> },
   { path: "/torneos/generar-ia/:id", element: <GenerarCalendarioIA /> },
+  {
+    path: "/torneos",
+    element: <Torneos />,
+  },
+  {
+    path: "/torneos/:id/partidos",
+    element: <PartidosTorneo />,
+  },
 ]);
