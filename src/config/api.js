@@ -47,6 +47,16 @@ export const API_ENDPOINTS = {
   jugadores: `${API_CONFIG.baseURL}/api/jugadores`,
   jugadoresPorEquipo: (equipoId) =>
     `${API_CONFIG.baseURL}/api/jugadores/equipo/${equipoId}`,
+  //Endpoints de estadisticas
+  estadisticasPartidos: (partidoId) =>
+    `${API_CONFIG.baseURL}/api/Estaditicas/partido/${partidoId}`,
+  estadisticasJugador: (jugadorId) =>
+    `${API_CONFIG.baseURL}/api/Estaditicas/jugador/${jugadorId}`,
+  Estadisticas: `${API_CONFIG.baseURL}/api/Estadisticas`,
+  EstadisticasGoleadores: (torneoId) =>
+    `${API_CONFIG.baseURL}/api/Estadisticas/goleadores?torneoId=${torneoId}`,
+  EstadisticasTablaPocisiones: (torneoId) =>
+    `${API_CONFIG.baseURL}/api/Estadisticas/tabla-posiciones/${torneoId}`,
 };
 
 export default API_CONFIG;
