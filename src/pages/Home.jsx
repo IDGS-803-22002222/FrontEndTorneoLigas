@@ -104,7 +104,7 @@ const Home = () => {
       <div className="container mx-auto px-4 sm:px-6 py-6 lg:py-10 max-w-7xl">
         <div className="mb-8 animate-fade-in">
           <div className="flex items-center gap-3 mb-3">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 rounded-2xl shadow-lg">
+            <div className="bg-gradient-to-r p-3 rounded-2xl shadow-lg">
               <img src="/public/ligas.png" alt="logos" className="w-8 h-8" />
             </div>
             <div>
@@ -327,7 +327,7 @@ const Home = () => {
                     <th className="px-4 py-4 text-left text-xs font-black text-gray-700 uppercase tracking-wider">
                       Pos
                     </th>
-                    <th className="px-4 py-4 text-left text-xs font-black text-gray-700 uppercase tracking-wider">
+                    <th className="px-4 py-4 text-center text-xs font-black text-gray-700 uppercase tracking-wider">
                       Equipo
                     </th>
                     <th className="px-4 py-4 text-center text-xs font-black text-gray-700 uppercase tracking-wider">
@@ -378,9 +378,16 @@ const Home = () => {
                           </div>
                         </td>
                         <td className="px-4 py-4">
-                          <span className="font-bold text-gray-900">
-                            {equipo.equi_Nombre || "Equipo"}
-                          </span>
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={equipo.equi_Logo}
+                              className="h-13 w-15 object-cover rounded-4xl"
+                              alt="logoEquipo"
+                            />
+                            <span className="font-bold text-gray-900">
+                              {equipo.equi_Nombre || "Equipo"}
+                            </span>
+                          </div>
                         </td>
                         <td className="px-4 py-4 text-center font-semibold text-gray-700">
                           {equipo.taPo_PartidosJugados || 0}
