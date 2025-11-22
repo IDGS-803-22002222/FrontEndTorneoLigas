@@ -57,6 +57,16 @@ export const API_ENDPOINTS = {
     `${API_CONFIG.baseURL}/api/Estadisticas/goleadores?torneoId=${torneoId}`,
   EstadisticasTablaPocisiones: (torneoId) =>
     `${API_CONFIG.baseURL}/api/Estadisticas/tabla-posiciones/${torneoId}`,
+  // Calendario IA
+  generarCalendarioIA: (torneoId) =>
+    `${API_CONFIG.baseURL}/api/CalendarioIA/generar/${torneoId}`,
+  costoEstimadoIA: (torneoId) =>
+    `${API_CONFIG.baseURL}/api/CalendarioIA/costo-estimado/${torneoId}`,
+  partidos: `${API_CONFIG.baseURL}/api/partidos`,
+  partidosPorTorneo: (id) => `${API_CONFIG.baseURL}/api/partidos/torneo/${id}`,
+  partidoById: (id) => `${API_CONFIG.baseURL}/api/partidos/${id}`,
+  editarPartido: `${API_CONFIG.baseURL}/api/partidos`,
+  registrarResultado: `${API_CONFIG.baseURL}/api/partidos/resultado`,
 };
 
 export default API_CONFIG;

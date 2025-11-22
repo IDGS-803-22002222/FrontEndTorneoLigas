@@ -395,6 +395,13 @@ const Torneos = () => {
 
                     {usuario?.rol_Nombre === "Administrador" && (
                       <div className="flex lg:flex-col gap-2 w-full lg:w-auto">
+                        <Link
+                          to={`/torneos/generar-ia/${torneo.torn_Id}`}
+                          className="flex-1 lg:flex-initial bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-5 py-2.5 rounded-lg font-bold transition text-center text-sm whitespace-nowrap flex items-center justify-center gap-2"
+                        >
+                          <span className="text-lg">🤖</span>
+                          <span>Generar con IA</span>
+                        </Link>
                         <button
                           onClick={() => abrirModalEstado(torneo)}
                           className="flex-1 lg:flex-initial bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg font-bold transition text-center text-sm whitespace-nowrap"
