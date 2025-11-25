@@ -118,7 +118,6 @@ const GenerarCalendarioIA = () => {
             ← Volver a Torneos
           </button>
         </div>
-
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-600 p-8 text-white">
             <div className="flex items-center gap-4">
@@ -135,7 +134,6 @@ const GenerarCalendarioIA = () => {
               </div>
             </div>
           </div>
-
           <div className="p-8 space-y-6">
             {/* Aviso si ya generado */}
             {yaGenerado && !resultado && (
@@ -219,7 +217,6 @@ const GenerarCalendarioIA = () => {
                 </div>
               </div>
             )}
-
             {/* Botones de Acción */}
             <div className="flex gap-3 pt-4 border-t mt-6">
               <button
@@ -228,7 +225,6 @@ const GenerarCalendarioIA = () => {
               >
                 Volver
               </button>
-
               {yaGenerado ? (
                 // BOTÓN VER PARTIDOS (Si ya existe)
                 <button
