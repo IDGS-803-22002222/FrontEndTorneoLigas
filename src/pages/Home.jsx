@@ -173,7 +173,7 @@ const Home = () => {
         {torneoActual && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:scale-105 transform">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-700 opacity-90"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-90"></div>
               <div className="relative p-6 text-white">
                 <div className="flex items-center justify-between mb-4">
                   <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 group-hover:scale-110 transition-transform">
@@ -202,7 +202,7 @@ const Home = () => {
             </div>
 
             <div className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:scale-105 transform">
-              <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-emerald-700 opacity-90"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-90"></div>
               <div className="relative p-6 text-white">
                 <div className="flex items-center justify-between mb-4">
                   <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 group-hover:scale-110 transition-transform">
@@ -234,7 +234,7 @@ const Home = () => {
             </div>
 
             <div className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:scale-105 transform">
-              <div className="absolute inset-0 bg-gradient-to-br from-yellow-500 to-orange-600 opacity-90"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-90"></div>
               <div className="relative p-6 text-white">
                 <div className="flex items-center justify-between mb-4">
                   <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 group-hover:scale-110 transition-transform">
@@ -259,14 +259,14 @@ const Home = () => {
                     0
                   )}
                 </h3>
-                <p className="text-yellow-100 font-semibold text-sm uppercase tracking-wide">
+                <p className="text-white-100 font-semibold text-sm uppercase tracking-wide">
                   Goles Totales
                 </p>
               </div>
             </div>
 
             <div className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:scale-105 transform">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-600 opacity-90"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-90"></div>
               <div className="relative p-6 text-white">
                 <div className="flex items-center justify-between mb-4">
                   <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 group-hover:scale-110 transition-transform">
@@ -300,7 +300,7 @@ const Home = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Tabla de Posiciones */}
           <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
-            <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-purple-600 px-6 py-5">
+            <div className="bg-gradient-to-r bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 px-6 py-5">
               <h3 className="text-xl font-black text-white flex items-center gap-3">
                 <div className="bg-white/20 backdrop-blur-sm p-2 rounded-xl">
                   <svg
@@ -371,7 +371,7 @@ const Home = () => {
                                 ? "bg-gradient-to-br from-gray-400 to-gray-600"
                                 : index === 2
                                 ? "bg-gradient-to-br from-orange-400 to-orange-600"
-                                : "bg-gradient-to-br from-blue-400 to-blue-600"
+                                : "bg-gradient-to-br bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
                             }`}
                           >
                             {index + 1}
@@ -443,7 +443,7 @@ const Home = () => {
 
           {/* Top Goleadores */}
           <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
-            <div className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 px-6 py-5">
+            <div className="bg-gradient-to-r bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 px-6 py-5">
               <h3 className="text-xl font-black text-white flex items-center gap-3">
                 <div className="bg-white/20 backdrop-blur-sm p-2 rounded-xl">
                   <svg
@@ -480,7 +480,7 @@ const Home = () => {
                               ? "bg-gradient-to-br from-gray-400 to-gray-600"
                               : index === 2
                               ? "bg-gradient-to-br from-orange-400 to-orange-600"
-                              : "bg-gradient-to-br from-blue-400 to-blue-600"
+                              : "bg-gradient-to-br bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
                           }`}
                         >
                           {index + 1}

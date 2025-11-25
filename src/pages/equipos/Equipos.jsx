@@ -236,7 +236,7 @@ const Equipos = () => {
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all overflow-hidden"
               >
                 {/* Header con logo */}
-                <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white relative">
+                <div className="bg-gradient-to-r bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 p-6 text-white relative">
                   <div className="flex items-start gap-4">
                     <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
                       {equipo.equi_Logo ? (

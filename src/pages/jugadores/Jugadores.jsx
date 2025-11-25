@@ -238,7 +238,7 @@ const Jugadores = () => {
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all overflow-hidden"
               >
                 {/* Header con número */}
-                <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4 text-white relative">
+                <div className="bg-gradient-to-r bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 p-4 text-white relative">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-blue-600 font-black text-2xl shadow-lg">
