@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../components/Layout";
 import { API_ENDPOINTS } from "../../config/api";
-import Alert from "../../components/alert";
+import Alert from "../../components/Alert";
 
 const EditarSede = () => {
   const { id } = useParams();
