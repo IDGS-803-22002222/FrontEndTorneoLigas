@@ -72,6 +72,14 @@ const Layout = ({ children }) => {
               >
                 Sedes
               </Link>
+              {usuario.rol_Nombre === "Administrador" && (
+                <Link
+                  to="/arbitros"
+                  className="text-gray-300 hover:text-white font-semibold transition"
+                >
+                  Árbitros
+                </Link>
+              )}
 
               {/* Menú QR - Solo para Administradores */}
               {usuario.rol_Nombre === "Administrador" && (
@@ -152,6 +160,14 @@ const Layout = ({ children }) => {
                 >
                   Dashboard
                 </Link>
+                {usuario.rol_Nombre === "Administrador" && (
+                  <Link
+                    to="/arbitros"
+                    className="text-gray-300 hover:text-white font-semibold px-2 py-2"
+                  >
+                    Árbitros
+                  </Link>
+                )}
                 <Link
                   to="/equipos"
                   className="text-gray-300 hover:text-white font-semibold px-2 py-2"

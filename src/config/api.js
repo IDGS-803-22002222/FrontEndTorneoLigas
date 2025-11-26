@@ -67,6 +67,10 @@ export const API_ENDPOINTS = {
   partidoById: (id) => `${API_CONFIG.baseURL}/api/partidos/${id}`,
   editarPartido: `${API_CONFIG.baseURL}/api/partidos`,
   registrarResultado: `${API_CONFIG.baseURL}/api/partidos/resultado`,
+
+  // Árbitros
+  arbitros: `${API_CONFIG.baseURL}/api/arbitros`,
+  arbitroById: (id) => `${API_CONFIG.baseURL}/api/arbitros/${id}`,
 };
 
 export default API_CONFIG;
