@@ -105,11 +105,11 @@ const Home = () => {
         <div className="mb-8 animate-fade-in">
           <div className="flex items-center gap-3 mb-3">
             <div className="bg-gradient-to-r p-3 rounded-2xl shadow-lg">
-              <img src="/public/ligas.png" alt="logos" className="w-8 h-8" />
+              <img src="./ligas.png" alt="logos" className="w-8 h-8" />
             </div>
             <div>
               <h1 className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
-                Dashboard
+                Bienvenido a Gestión de Ligas Deportivas
               </h1>
               <p className="text-gray-600 text-base lg:text-lg font-medium mt-1"></p>
             </div>
@@ -408,7 +408,7 @@ const Home = () => {
                           </span>
                         </td>
                         <td className="px-4 py-4 text-center">
-                          <span className="inline-flex items-center justify-center px-4 py-2 rounded-xl font-black bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg">
+                          <span className="inline-flex items-center justify-center px-4 py-2 rounded-xl font-black  text-black shadow-lg">
                             {equipo.taPo_Puntos || 0}
                           </span>
                         </td>
@@ -495,7 +495,7 @@ const Home = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-3xl font-black bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
+                        <p className="text-3xl font-black text-black bg-clip-text ">
                           {goleador.totalGoles || 0}
                         </p>
                         <p className="text-xs text-gray-500 font-bold uppercase tracking-wide">

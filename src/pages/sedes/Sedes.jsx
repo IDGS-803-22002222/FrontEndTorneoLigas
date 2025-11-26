@@ -145,22 +145,22 @@ const Sedes = () => {
       )}
 
       <Layout>
-        <div className="container mx-auto px-4 sm:px-6 py-8">
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div className="container mx-auto px-4 sm:px-6 py-10">
+          {/* ENCABEZADO */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 mb-10">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-black text-gray-900">
+              <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
                 Gestión de Sedes
               </h1>
-              <p className="text-gray-600 mt-1">
-                Administra las sedes deportivas del sistema
+              <p className="text-gray-500 mt-1 text-lg">
+                Administra las sedes deportivas registradas
               </p>
             </div>
 
             {usuario?.rol_Nombre === "Administrador" && (
               <Link
                 to="/sedes/crear"
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg flex items-center gap-2"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition shadow-md flex items-center gap-2"
               >
                 <svg
                   className="w-5 h-5"
@@ -180,47 +180,50 @@ const Sedes = () => {
             )}
           </div>
 
-          {/* Estadísticas */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-green-600">
-              <p className="text-gray-600 text-sm font-semibold">Total Sedes</p>
-              <p className="text-3xl font-black text-gray-900">
-                {estadisticas.total}
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-emerald-500">
-              <p className="text-gray-600 text-sm font-semibold">
-                Pasto Natural
-              </p>
-              <p className="text-3xl font-black text-gray-900">
-                {estadisticas.natural}
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-lime-500">
-              <p className="text-gray-600 text-sm font-semibold">
-                Pasto Sintético
-              </p>
-              <p className="text-3xl font-black text-gray-900">
-                {estadisticas.sintetico}
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-gray-500">
-              <p className="text-gray-600 text-sm font-semibold">Otros Tipos</p>
-              <p className="text-3xl font-black text-gray-900">
-                {estadisticas.otros}
-              </p>
-            </div>
+          {/* ESTADÍSTICAS */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            {[
+              {
+                label: "Total Sedes",
+                value: estadisticas.total,
+                color: "green-600",
+              },
+              {
+                label: "Pasto Natural",
+                value: estadisticas.natural,
+                color: "emerald-500",
+              },
+              {
+                label: "Pasto Sintético",
+                value: estadisticas.sintetico,
+                color: "lime-500",
+              },
+              {
+                label: "Otros Tipos",
+                value: estadisticas.otros,
+                color: "gray-500",
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className={`bg-white/90 backdrop-blur-lg rounded-2xl shadow-md p-5 border-l-4 border-${item.color}`}
+              >
+                <p className="text-gray-600 text-sm font-medium">
+                  {item.label}
+                </p>
+                <p className="text-3xl font-extrabold text-gray-900 mt-1">
+                  {item.value}
+                </p>
+              </div>
+            ))}
           </div>
 
-          {/* Barra de búsqueda */}
-          <div className="bg-white rounded-xl shadow-lg p-4 mb-6">
+          {/* BUSCADOR */}
+          <div className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-md p-6 mb-8">
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="relative">
                 <svg
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -238,14 +241,14 @@ const Sedes = () => {
                   value={busqueda}
                   onChange={(e) => setBusqueda(e.target.value)}
                   placeholder="Buscar sede por nombre o dirección..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-600"
                 />
               </div>
 
               <select
                 value={filtroTipo}
                 onChange={(e) => setFiltroTipo(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg font-semibold focus:ring-2 focus:ring-green-600"
+                className="px-4 py-3 border border-gray-300 rounded-xl font-semibold focus:ring-2 focus:ring-green-600"
               >
                 {tiposCampo.map((tipo) => (
                   <option key={tipo} value={tipo}>
@@ -258,14 +261,14 @@ const Sedes = () => {
 
           {/* ERROR */}
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6">
+            <div className="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded-xl mb-8 shadow">
               {error}
             </div>
           )}
 
-          {/* Grid de sedes */}
+          {/* SIN RESULTADOS */}
           {sedesFiltradas.length === 0 ? (
-            <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
+            <div className="bg-white shadow-md rounded-2xl p-16 text-center">
               <p className="text-gray-500 text-lg font-semibold">
                 {busqueda
                   ? "No se encontraron sedes con esos criterios"
@@ -275,23 +278,23 @@ const Sedes = () => {
               {!busqueda && usuario?.rol_Nombre === "Administrador" && (
                 <Link
                   to="/sedes/crear"
-                  className="text-green-600 hover:text-green-700 font-bold mt-2 inline-block"
+                  className="text-green-600 hover:text-green-700 font-bold mt-3 inline-block"
                 >
                   Crear la primera sede
                 </Link>
               )}
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {sedesFiltradas.map((sede) => (
                 <div
                   key={sede.sede_Id}
-                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all overflow-hidden"
+                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all overflow-hidden border border-gray-100"
                 >
-                  {/* Header */}
-                  <div className="bg-gradient-to-r from-green-600 to-green-700 p-6 text-white">
+                  {/* Encabezado */}
+                  <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 p-6 text-white">
                     <div className="flex items-start gap-3">
-                      <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center">
+                      <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center shadow">
                         <svg
                           className="w-7 h-7 text-green-600"
                           fill="none"
@@ -307,13 +310,13 @@ const Sedes = () => {
                         </svg>
                       </div>
 
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-xl font-black break-words">
+                      <div className="flex-1">
+                        <h3 className="text-xl font-extrabold leading-tight break-words">
                           {sede.sede_Nombre}
                         </h3>
 
                         {sede.sede_TipoCampo && (
-                          <span className="inline-block bg-green-500 px-3 py-1 rounded-full text-xs font-bold mt-1">
+                          <span className="inline-block bg-green-500 px-3 py-1 rounded-full text-xs font-bold mt-2">
                             {sede.sede_TipoCampo}
                           </span>
                         )}
@@ -321,37 +324,35 @@ const Sedes = () => {
                     </div>
                   </div>
 
-                  {/* Body */}
-                  <div className="p-6 space-y-3">
+                  {/* Cuerpo */}
+                  <div className="p-6 space-y-4">
                     {sede.sede_Direccion && (
-                      <div className="flex items-start gap-3 bg-gray-50 p-3 rounded-lg text-sm text-gray-600">
-                        <span className="font-medium break-words">
-                          {sede.sede_Direccion}
-                        </span>
+                      <div className="bg-gray-50 p-4 rounded-xl text-gray-600 text-sm shadow-inner">
+                        <p className="break-words">{sede.sede_Direccion}</p>
                       </div>
                     )}
 
                     {sede.sede_Capacidad && (
-                      <div className="flex items-center gap-2 bg-gray-50 p-3 rounded-lg text-sm text-gray-600">
-                        <span className="font-bold">
+                      <div className="bg-gray-50 p-4 rounded-xl text-gray-600 text-sm shadow-inner">
+                        <p className="font-bold">
                           Capacidad: {sede.sede_Capacidad} personas
-                        </span>
+                        </p>
                       </div>
                     )}
 
                     {/* ACCIONES */}
                     {usuario?.rol_Nombre === "Administrador" && (
-                      <div className="grid grid-cols-2 gap-2 pt-2">
+                      <div className="grid grid-cols-2 gap-3 pt-4">
                         <Link
                           to={`/sedes/editar/${sede.sede_Id}`}
-                          className="bg-gray-100 hover:bg-gray-200 px-4 py-2.5 rounded-lg font-bold text-center"
+                          className="bg-gray-100 hover:bg-gray-200 px-4 py-3 rounded-xl font-bold text-center transition"
                         >
                           Editar
                         </Link>
 
                         <button
                           onClick={() => confirmarEliminar(sede.sede_Id)}
-                          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 rounded-lg font-bold"
+                          className="bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-xl font-bold shadow transition"
                         >
                           Eliminar
                         </button>

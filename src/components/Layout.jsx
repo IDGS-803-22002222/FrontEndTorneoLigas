@@ -36,7 +36,7 @@ const Layout = ({ children }) => {
                 <img src="./ligas.png" alt="" />
               </div>
               <span className="text-xl font-black text-white hidden sm:block">
-                LIGA LOCAL
+                Gestion de ligas deportivas
               </span>
             </Link>
 
@@ -46,7 +46,7 @@ const Layout = ({ children }) => {
                 to="/home"
                 className="text-gray-300 hover:text-white font-semibold transition"
               >
-                Dashboard
+                Inicio
               </Link>
               <Link
                 to="/equipos"

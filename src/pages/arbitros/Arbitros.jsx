@@ -129,41 +129,32 @@ const Arbitros = () => {
         />
       )}
 
+      {alerta.visible && (
+        <Alert
+          type={alerta.type}
+          message={alerta.message}
+          onClose={() => setAlerta({ visible: false })}
+          onConfirm={alerta.onConfirm}
+          onCancel={alerta.onCancel}
+        />
+      )}
+
       <Layout>
         <div className="container mx-auto px-4 sm:px-6 py-8">
           {/* Header */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
             <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-700 rounded-xl flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h1 className="text-3xl sm:text-4xl font-black text-gray-900">
-                    Gestión de Árbitros
-                  </h1>
-                  <p className="text-gray-600 mt-1">
-                    Administra los árbitros del sistema
-                  </p>
-                </div>
-              </div>
+              <h1 className="text-3xl sm:text-4xl font-black text-gray-900">
+                Gestión de Árbitros
+              </h1>
+              <p className="text-gray-600 mt-1">
+                Administra los árbitros del sistema
+              </p>
             </div>
 
             <Link
               to="/arbitros/crear"
-              className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg flex items-center gap-2"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg flex items-center gap-2"
             >
               <svg
                 className="w-5 h-5"
@@ -184,7 +175,7 @@ const Arbitros = () => {
 
           {/* Estadísticas */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-yellow-600">
+            <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-blue-600">
               <p className="text-gray-600 text-sm font-semibold">
                 Total Árbitros Activos
               </p>
@@ -215,7 +206,7 @@ const Arbitros = () => {
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
                 placeholder="Buscar por nombre o email..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-600 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
               />
             </div>
           </div>
@@ -250,7 +241,7 @@ const Arbitros = () => {
               {!busqueda && (
                 <Link
                   to="/arbitros/crear"
-                  className="text-yellow-600 hover:text-yellow-700 font-bold mt-2 inline-block"
+                  className="text-blue-600 hover:text-blue-700 font-bold mt-2 inline-block"
                 >
                   Crear el primer árbitro
                 </Link>
@@ -263,8 +254,8 @@ const Arbitros = () => {
                   key={arbitro.usua_Id}
                   className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all overflow-hidden"
                 >
-                  {/* Header */}
-                  <div className="bg-gradient-to-r from-yellow-600 to-yellow-700 p-6 text-white">
+                  {/* Header (Dark Gradient como equipos) */}
+                  <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 p-6 text-white">
                     <div className="flex items-start gap-3">
                       <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center text-3xl">
                         👮‍♂️
@@ -286,6 +277,7 @@ const Arbitros = () => {
 
                   {/* Body */}
                   <div className="p-6 space-y-3">
+                    {/* Email */}
                     <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
                       <svg
                         className="w-4 h-4"
@@ -305,6 +297,7 @@ const Arbitros = () => {
                       </span>
                     </div>
 
+                    {/* Telefono */}
                     {arbitro.usua_Telefono && (
                       <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
                         <svg
@@ -326,6 +319,7 @@ const Arbitros = () => {
                       </div>
                     )}
 
+                    {/* Fecha */}
                     {arbitro.usua_FechaRegistro && (
                       <div className="flex items-center gap-2 text-xs text-gray-500 bg-gray-50 p-3 rounded-lg">
                         <svg
@@ -362,6 +356,7 @@ const Arbitros = () => {
                       >
                         Editar
                       </Link>
+
                       <button
                         onClick={() => confirmarEliminar(arbitro.usua_Id)}
                         className="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2.5 rounded-lg font-bold text-sm"
