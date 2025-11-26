@@ -10,7 +10,7 @@ import CrearTorneo from "../pages/torneos/CrearTorneo";
 import EditarTorneo from "../pages/torneos/EditarTorneo";
 import EquiposTorneo from "../pages/torneos/EquiposTorneo";
 import GestionQR from "../pages/admin/GestionQR";
-import Sedes from "../pages/Sedes/Sedes";
+import Sedes from "../pages/sedes/Sedes";
 import CrearSede from "../pages/sedes/CrearSede";
 import EditarSede from "../pages/sedes/EditarSede";
 import Jugadores from "../pages/jugadores/Jugadores";
