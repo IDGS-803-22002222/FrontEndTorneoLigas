@@ -311,7 +311,7 @@ const CrearTorneo = () => {
               <button
                 type="submit"
                 disabled={cargando}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition disabled:bg-gray-400"
+                className="flex-1  bg-gray-800 hover:bg-gray-900  text-white px-6 py-3 rounded-xl font-bold transition disabled:bg-gray-400"
               >
                 {cargando ? "Creando..." : "Crear Torneo"}
               </button>

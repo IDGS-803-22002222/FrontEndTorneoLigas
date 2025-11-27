@@ -1,6 +1,6 @@
 // Configuración centralizada de la API
 const API_CONFIG = {
-  baseURL: "https://localhost:7089",
+  baseURL: "https://localhost:5289",
 };
 
 // Construir URLs completas
@@ -67,6 +67,8 @@ export const API_ENDPOINTS = {
   partidoById: (id) => `${API_CONFIG.baseURL}/api/partidos/${id}`,
   editarPartido: `${API_CONFIG.baseURL}/api/partidos`,
   registrarResultado: `${API_CONFIG.baseURL}/api/partidos/resultado`,
+  partidosFinalizados: (id) =>
+    `${API_CONFIG.baseURL}/api/partidos/finalizados/${id}`,
 
   // Árbitros
   arbitros: `${API_CONFIG.baseURL}/api/arbitros`,

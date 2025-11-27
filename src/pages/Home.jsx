@@ -446,19 +446,11 @@ const Home = () => {
             <div className="bg-gradient-to-r bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 px-6 py-5">
               <h3 className="text-xl font-black text-white flex items-center gap-3">
                 <div className="bg-white/20 backdrop-blur-sm p-2 rounded-xl">
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                    />
-                  </svg>
+                  <img
+                    src="/public/goles.png"
+                    alt="goles"
+                    className="h-10 w-10"
+                  />
                 </div>
                 Top 5 Goleadores
               </h3>

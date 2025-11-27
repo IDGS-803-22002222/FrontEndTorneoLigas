@@ -262,19 +262,7 @@ const Torneos = () => {
         {/* Lista de torneos */}
         {torneosFiltrados.length === 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
-            <svg
-              className="w-16 h-16 text-gray-300 mx-auto mb-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-              />
-            </svg>
+            <img src="/public/torneos.png" alt="torneos" />
             <p className="text-gray-500 text-lg font-semibold">
               No hay torneos{" "}
               {filtroEstado !== "Todos" && filtroEstado.toLowerCase()}
@@ -291,20 +279,12 @@ const Torneos = () => {
                   <div className="flex flex-col lg:flex-row justify-between items-start gap-6">
                     <div className="flex-1 w-full">
                       <div className="flex items-start gap-4 mb-4">
-                        <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center flex-shrink-0">
-                          <svg
-                            className="w-7 h-7 text-white"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                            />
-                          </svg>
+                        <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center flex-shrink-0">
+                          <img
+                            src="/public/torneos.png"
+                            alt="torneos"
+                            srcset=""
+                          />
                         </div>
                         <div className="flex-1 min-w-0">
                           <h2 className="text-2xl font-black text-gray-900 mb-1 break-words">
@@ -397,21 +377,21 @@ const Torneos = () => {
                       <div className="flex lg:flex-col gap-2 w-full lg:w-auto">
                         <Link
                           to={`/torneos/${torneo.torn_Id}/partidos`}
-                          className="flex-1 lg:flex-initial bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-bold transition text-center text-sm whitespace-nowrap flex items-center justify-center gap-2"
+                          className="flex-1 lg:flex-initial  bg-gray-800 hover:bg-gray-900  text-white px-5 py-2.5 rounded-lg font-bold transition text-center text-sm whitespace-nowrap flex items-center justify-center gap-2"
                         >
                           <span className="text-lg">⚽</span>
                           <span>Ver Partidos</span>
                         </Link>
                         <Link
                           to={`/torneos/generar-ia/${torneo.torn_Id}`}
-                          className="flex-1 lg:flex-initial bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-5 py-2.5 rounded-lg font-bold transition text-center text-sm whitespace-nowrap flex items-center justify-center gap-2"
+                          className="flex-1 lg:flex-initial bg-gradient-to-r  bg-gray-800 hover:bg-gray-900  text-white px-5 py-2.5 rounded-lg font-bold transition text-center text-sm whitespace-nowrap flex items-center justify-center gap-2"
                         >
                           <span className="text-lg">🤖</span>
                           <span>Generar con IA</span>
                         </Link>
                         <button
                           onClick={() => abrirModalEstado(torneo)}
-                          className="flex-1 lg:flex-initial bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg font-bold transition text-center text-sm whitespace-nowrap"
+                          className="flex-1 lg:flex-initial  bg-gray-800 hover:bg-gray-900 text-white px-5 py-2.5 rounded-lg font-bold transition text-center text-sm whitespace-nowrap"
                         >
                           Cambiar Estado
                         </button>

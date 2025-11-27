@@ -295,19 +295,7 @@ const Sedes = () => {
                   <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 p-6 text-white">
                     <div className="flex items-start gap-3">
                       <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center shadow">
-                        <svg
-                          className="w-7 h-7 text-green-600"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                          />
-                        </svg>
+                        <img src="/public/canchas.png" className="h-10 w-10" />
                       </div>
 
                       <div className="flex-1">

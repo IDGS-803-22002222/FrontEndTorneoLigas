@@ -258,7 +258,11 @@ const Arbitros = () => {
                   <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 p-6 text-white">
                     <div className="flex items-start gap-3">
                       <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center text-3xl">
-                        👮‍♂️
+                        <img
+                          src="/public/arbitro.png"
+                          alt="arbitro"
+                          className="h-10 w-10"
+                        />
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="text-xl font-black break-words">
