@@ -1,78 +1,77 @@
 // Configuración centralizada de la API
 const API_CONFIG = {
-  baseURL: "https://localhost:5289",
+  baseURL: "https://webservicescm.epcucm.com.mx:50452/WS-Torneos/api",
 };
 
 // Construir URLs completas
 export const API_ENDPOINTS = {
   //Usuarios
-  usuarios: `${API_CONFIG.baseURL}/api/usuarios`,
-  usuariosPorRol: (rolId) => `${API_CONFIG.baseURL}/api/usuarios/rol/${rolId}`,
+  usuarios: `${API_CONFIG.baseURL}/usuarios`,
+  usuariosPorRol: (rolId) => `${API_CONFIG.baseURL}/usuarios/rol/${rolId}`,
 
   // Auth
-  login: `${API_CONFIG.baseURL}/api/auth/login`,
-  register: `${API_CONFIG.baseURL}/api/auth/register`,
+  login: `${API_CONFIG.baseURL}/auth/login`,
+  register: `${API_CONFIG.baseURL}auth/register`,
 
   // Equipos
-  equipos: `${API_CONFIG.baseURL}/api/equipos`,
-  equipoById: (id) => `${API_CONFIG.baseURL}/api/equipos/${id}`,
-  equipoQR: (id) => `${API_CONFIG.baseURL}/api/equipos/qr/${id}`,
+  equipos: `${API_CONFIG.baseURL}/equipos`,
+  equipoById: (id) => `${API_CONFIG.baseURL}/equipos/${id}`,
+  equipoQR: (id) => `${API_CONFIG.baseURL}/equipos/qr/${id}`,
 
   // Torneos
-  torneos: `${API_CONFIG.baseURL}/api/torneos`,
-  torneoById: (id) => `${API_CONFIG.baseURL}/api/torneos/${id}`,
-  inscribirEquipo: `${API_CONFIG.baseURL}/api/torneos/inscribir-equipo`,
-  equiposTorneo: (id) => `${API_CONFIG.baseURL}/api/torneos/${id}/equipos`,
-  cambiarEstadoTorneo: (id) => `${API_CONFIG.baseURL}/api/torneos/${id}/estado`,
+  torneos: `${API_CONFIG.baseURL}/torneos`,
+  torneoById: (id) => `${API_CONFIG.baseURL}/torneos/${id}`,
+  inscribirEquipo: `${API_CONFIG.baseURL}/torneos/inscribir-equipo`,
+  equiposTorneo: (id) => `${API_CONFIG.baseURL}/torneos/${id}/equipos`,
+  cambiarEstadoTorneo: (id) => `${API_CONFIG.baseURL}/torneos/${id}/estado`,
 
   // QR Capitanes (TIPO 1: Admin genera para convertir usuarios en capitanes)
-  generarQRCapitan: `${API_CONFIG.baseURL}/api/qr/generar-capitan`,
-  validarQRCapitan: `${API_CONFIG.baseURL}/api/qr/validar-capitan`,
-  listarQRCapitanes: `${API_CONFIG.baseURL}/api/qr/capitanes`,
+  generarQRCapitan: `${API_CONFIG.baseURL}/qr/generar-capitan`,
+  validarQRCapitan: `${API_CONFIG.baseURL}/qr/validar-capitan`,
+  listarQRCapitanes: `${API_CONFIG.baseURL}/qr/capitanes`,
 
   // QR Equipos (TIPO 2: Capitán genera para inscribir jugadores)
   generarQREquipo: (equipoId) =>
-    `${API_CONFIG.baseURL}/api/qr/generar-equipo/${equipoId}`,
-  listarQREquipos: `${API_CONFIG.baseURL}/api/qr/equipos`,
-  obtenerQREquipo: (equipoId) =>
-    `${API_CONFIG.baseURL}/api/qr/equipo/${equipoId}`,
+    `${API_CONFIG.baseURL}/qr/generar-equipo/${equipoId}`,
+  listarQREquipos: `${API_CONFIG.baseURL}/qr/equipos`,
+  obtenerQREquipo: (equipoId) => `${API_CONFIG.baseURL}/qr/equipo/${equipoId}`,
 
   // Sedes
-  sedes: `${API_CONFIG.baseURL}/api/sedes`,
-  sedeById: (id) => `${API_CONFIG.baseURL}/api/sedes/${id}`,
-  crearSede: `${API_CONFIG.baseURL}/api/sedes`,
-  editarSede: `${API_CONFIG.baseURL}/api/sedes`,
-  eliminarSede: (id) => `${API_CONFIG.baseURL}/api/sedes/${id}`,
+  sedes: `${API_CONFIG.baseURL}/sedes`,
+  sedeById: (id) => `${API_CONFIG.baseURL}/sedes/${id}`,
+  crearSede: `${API_CONFIG.baseURL}/sedes`,
+  editarSede: `${API_CONFIG.baseURL}/sedes`,
+  eliminarSede: (id) => `${API_CONFIG.baseURL}/sedes/${id}`,
   // Jugadores
-  jugadores: `${API_CONFIG.baseURL}/api/jugadores`,
+  jugadores: `${API_CONFIG.baseURL}/jugadores`,
   jugadoresPorEquipo: (equipoId) =>
-    `${API_CONFIG.baseURL}/api/jugadores/equipo/${equipoId}`,
+    `${API_CONFIG.baseURL}/jugadores/equipo/${equipoId}`,
   //Endpoints de estadisticas
   estadisticasPartidos: (partidoId) =>
-    `${API_CONFIG.baseURL}/api/Estaditicas/partido/${partidoId}`,
+    `${API_CONFIG.baseURL}/Estaditicas/partido/${partidoId}`,
   estadisticasJugador: (jugadorId) =>
-    `${API_CONFIG.baseURL}/api/Estaditicas/jugador/${jugadorId}`,
-  Estadisticas: `${API_CONFIG.baseURL}/api/Estadisticas`,
+    `${API_CONFIG.baseURL}/Estaditicas/jugador/${jugadorId}`,
+  Estadisticas: `${API_CONFIG.baseURL}/Estadisticas`,
   EstadisticasGoleadores: (torneoId) =>
-    `${API_CONFIG.baseURL}/api/Estadisticas/goleadores?torneoId=${torneoId}`,
+    `${API_CONFIG.baseURL}/Estadisticas/goleadores?torneoId=${torneoId}`,
   EstadisticasTablaPocisiones: (torneoId) =>
-    `${API_CONFIG.baseURL}/api/Estadisticas/tabla-posiciones/${torneoId}`,
+    `${API_CONFIG.baseURL}/Estadisticas/tabla-posiciones/${torneoId}`,
   // Calendario IA
   generarCalendarioIA: (torneoId) =>
-    `${API_CONFIG.baseURL}/api/CalendarioIA/generar/${torneoId}`,
+    `${API_CONFIG.baseURL}/CalendarioIA/generar/${torneoId}`,
   costoEstimadoIA: (torneoId) =>
-    `${API_CONFIG.baseURL}/api/CalendarioIA/costo-estimado/${torneoId}`,
-  partidos: `${API_CONFIG.baseURL}/api/partidos`,
-  partidosPorTorneo: (id) => `${API_CONFIG.baseURL}/api/partidos/torneo/${id}`,
-  partidoById: (id) => `${API_CONFIG.baseURL}/api/partidos/${id}`,
-  editarPartido: `${API_CONFIG.baseURL}/api/partidos`,
-  registrarResultado: `${API_CONFIG.baseURL}/api/partidos/resultado`,
+    `${API_CONFIG.baseURL}/CalendarioIA/costo-estimado/${torneoId}`,
+  partidos: `${API_CONFIG.baseURL}/partidos`,
+  partidosPorTorneo: (id) => `${API_CONFIG.baseURL}/partidos/torneo/${id}`,
+  partidoById: (id) => `${API_CONFIG.baseURL}/partidos/${id}`,
+  editarPartido: `${API_CONFIG.baseURL}/partidos`,
+  registrarResultado: `${API_CONFIG.baseURL}/partidos/resultado`,
   partidosFinalizados: (id) =>
-    `${API_CONFIG.baseURL}/api/partidos/finalizados/${id}`,
+    `${API_CONFIG.baseURL}/partidos/finalizados/${id}`,
 
   // Árbitros
-  arbitros: `${API_CONFIG.baseURL}/api/arbitros`,
-  arbitroById: (id) => `${API_CONFIG.baseURL}/api/arbitros/${id}`,
+  arbitros: `${API_CONFIG.baseURL}/arbitros`,
+  arbitroById: (id) => `${API_CONFIG.baseURL}/arbitros/${id}`,
 };
 
 export default API_CONFIG;
