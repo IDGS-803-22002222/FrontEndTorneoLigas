@@ -119,7 +119,7 @@ const GenerarCalendarioIA = () => {
           </button>
         </div>
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-600 p-8 text-white">
+          <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900  to-white p-8 text-white">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg">
                 <span className="text-4xl">🤖</span>
@@ -231,9 +231,8 @@ const GenerarCalendarioIA = () => {
                   // IMPORTANTE: Asegúrate de tener esta ruta configurada en tu router
                   // Si no existe, puedes enviarlo a `/torneos` por ahora
                   onClick={() => navigate(`/torneos`)}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl font-bold transition text-lg flex items-center justify-center gap-2 shadow-lg"
+                  className="flex-1 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900  text-white px-6 py-4 rounded-xl font-bold transition text-lg flex items-center justify-center gap-2 shadow-lg"
                 >
-                  <span className="text-2xl">⚽</span>
                   <span>Ver Partidos</span>
                 </button>
               ) : (
@@ -241,7 +240,7 @@ const GenerarCalendarioIA = () => {
                 <button
                   onClick={handleGenerar}
                   disabled={generando || !costoEstimado}
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-6 py-4 rounded-xl font-bold transition disabled:opacity-50 disabled:cursor-not-allowed text-lg flex items-center justify-center gap-3"
+                  className="flex-1 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900  text-white px-6 py-4 rounded-xl font-bold transition disabled:opacity-50 disabled:cursor-not-allowed text-lg flex items-center justify-center gap-3"
                 >
                   {generando ? (
                     <span>Generando...</span>

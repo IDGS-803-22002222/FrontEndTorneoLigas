@@ -90,7 +90,7 @@ const PartidosTorneo = () => {
               key={jornada}
               className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100"
             >
-              <div className="bg-blue-600 px-6 py-3">
+              <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-90 px-6 py-3">
                 <h3 className="text-white font-bold text-lg">
                   Jornada {jornada}
                 </h3>
@@ -117,7 +117,7 @@ const PartidosTorneo = () => {
                             minute: "2-digit",
                           })}
                         </p>
-                        <p className="text-xs text-blue-600 font-semibold mt-1">
+                        <p className="text-xs text-black font-semibold mt-1">
                           📍 {partido.sede_Nombre}
                         </p>
                       </div>

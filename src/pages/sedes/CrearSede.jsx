@@ -96,19 +96,48 @@ const CrearSede = () => {
 
           <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-700 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 rounded-xl flex items-center justify-center">
                 <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+                  id="_x32_"
+                  height="40px"
+                  width="40px"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 0 512 512"
+                  xmlSpace="preserve"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                  />
+                  <style type="text/css">{"\n\t.st0{fill:#ffff;}\n"}</style>
+                  <g>
+                    <rect
+                      x={452.035}
+                      y={200.935}
+                      className="st0"
+                      width={59.965}
+                      height={129.779}
+                    />
+                    <path
+                      className="st0"
+                      d="M473.104,80.845H268.248l0.008,79.249c47.648,6.039,84.513,46.622,84.513,95.899 c0,49.293-36.866,89.876-84.513,95.914v79.249h204.848c21.483,0,38.896-17.413,38.896-38.896v-37.048h-84.463V176.438H512v-56.706 C512,98.251,494.587,80.845,473.104,80.845z"
+                    />
+                    <path
+                      className="st0"
+                      d="M307.11,204.905c-10.37-10.358-23.81-17.489-38.853-20.062v142.306c15.043-2.565,28.483-9.703,38.853-20.054 c13.092-13.115,21.162-31.109,21.162-51.102C328.272,236.007,320.202,218.021,307.11,204.905z"
+                    />
+                    <path
+                      className="st0"
+                      d="M204.898,307.095c10.371,10.36,23.81,17.49,38.854,20.054V184.843c-15.044,2.573-28.483,9.704-38.854,20.062 c-13.1,13.116-21.158,31.102-21.165,51.088C183.74,275.986,191.798,293.98,204.898,307.095z"
+                    />
+                    <rect
+                      y={200.935}
+                      className="st0"
+                      width={59.962}
+                      height={129.779}
+                    />
+                    <path
+                      className="st0"
+                      d="M159.234,255.993c0.008-49.278,36.869-89.86,84.517-95.899V80.845H38.896C17.413,80.845,0,98.251,0,119.732 v56.706h84.459v178.774H0v37.048c0,21.483,17.413,38.896,38.896,38.896h204.863l-0.007-79.249 C196.103,345.868,159.242,305.286,159.234,255.993z"
+                    />
+                  </g>
                 </svg>
               </div>
               <div>
