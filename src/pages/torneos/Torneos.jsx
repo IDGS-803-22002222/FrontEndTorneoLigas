@@ -53,7 +53,7 @@ const Torneos = () => {
     setAlerta({
       visible: true,
       type: "confirm",
-      message: "¿Deseas eliminar este árbitro?",
+      message: "¿Deseas eliminar este torneo?",
       onConfirm: () => eliminarTorneo(id),
       onCancel: () => setAlerta({ visible: false }),
     });
@@ -129,7 +129,11 @@ const Torneos = () => {
       const data = await response.json();
 
       if (data.isSuccess) {
-        alert("Estado actualizado exitosamente");
+        setAlerta({
+          visible: true,
+          type: "success",
+          message: "Estado del torneo actualizado exitosamente",
+        });
         cerrarModalEstado();
         cargarTorneos();
       } else {
