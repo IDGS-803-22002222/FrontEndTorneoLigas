@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../components/Layout";
 import { API_ENDPOINTS } from "../../config/api";
-import Alert from "../../components/Alert";
+import AlertDialog from "../../components/AlertDialog";
 
 const GenerarCalendarioIA = () => {
   const { id } = useParams();
@@ -13,28 +13,31 @@ const GenerarCalendarioIA = () => {
   const [error, setError] = useState("");
   const [resultado, setResultado] = useState(null);
   const [cargando, setCargando] = useState(true);
-  const [yaGenerado, setYaGenerado] = useState(false); // Nuevo estado
-  const [alerta, setAlerta] = useState({
-    visible: false,
-    type: "",
+  const [yaGenerado, setYaGenerado] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+  const [dialogConfig, setDialogConfig] = useState({
     message: "",
-    onConfirm: null,
-    onCancel: null,
+    acceptText: "Aceptar",
+    acceptColor: "blue",
+    onAccept: null,
   });
 
   useEffect(() => {
     cargarDatos();
   }, [id]);
 
-  const confirmarGnerarCalendario = () => {
-    setAlerta({
-      visible: true,
-      type: "confirm",
+  const confirmarGenerarCalendario = () => {
+    setDialogConfig({
       message:
         "¿Estás seguro de generar el calendario con IA? Esto creará todos los partidos del torneo automáticamente.",
-      onConfirm: () => handleGenerar(),
-      onCancel: () => setAlerta({ visible: false }),
+      acceptText: "Generar",
+      acceptColor: "blue",
+      onAccept: () => {
+        setShowDialog(false);
+        handleGenerar();
+      },
     });
+    setShowDialog(true);
   };
 
   const cargarDatos = async () => {
@@ -89,16 +92,16 @@ const GenerarCalendarioIA = () => {
       const data = await response.json();
 
       if (data.isSuccess) {
-        setAlerta({
-          visible: true,
-          type: "success",
-          message: "Calendario generado exitosamente con IA.",
-        });
         setResultado(data);
-        setYaGenerado(true); // Actualizamos estado inmediatamente
-        setTimeout(() => {
-          // Opcional: Redirigir automáticamente
-        }, 2000);
+        setYaGenerado(true);
+        // Mostrar AlertDialog de éxito
+        setDialogConfig({
+          message: "¡Calendario generado exitosamente con IA!",
+          acceptText: "Entendido",
+          acceptColor: "green",
+          onAccept: () => setShowDialog(false),
+        });
+        setShowDialog(true);
       } else {
         setError(data.message || "Error al generar calendario");
         if (data.errores) {
@@ -125,25 +128,16 @@ const GenerarCalendarioIA = () => {
 
   return (
     <>
-      {alerta.visible && (
-        <Alert
-          type={alerta.type}
-          message={alerta.message}
-          onClose={() => setAlerta({ visible: false })}
-          onConfirm={alerta.onConfirm}
-          onCancel={alerta.onCancel}
+      {/* AlertDialog único para confirmación y éxito */}
+      {showDialog && (
+        <AlertDialog
+          message={dialogConfig.message}
+          acceptText={dialogConfig.acceptText}
+          acceptColor={dialogConfig.acceptColor}
+          onAccept={dialogConfig.onAccept}
         />
       )}
 
-      {alerta.visible && (
-        <Alert
-          type={alerta.type}
-          message={alerta.message}
-          onClose={() => setAlerta({ visible: false })}
-          onConfirm={alerta.onConfirm}
-          onCancel={alerta.onCancel}
-        />
-      )}
       <Layout>
         <div className="container mx-auto px-4 sm:px-6 py-8 max-w-4xl">
           <div className="mb-6">
@@ -154,8 +148,9 @@ const GenerarCalendarioIA = () => {
               ← Volver a Torneos
             </button>
           </div>
+
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900  to-white p-8 text-white">
+            <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 p-8 text-white">
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg">
                   <span className="text-4xl">🤖</span>
@@ -170,6 +165,7 @@ const GenerarCalendarioIA = () => {
                 </div>
               </div>
             </div>
+
             <div className="p-8 space-y-6">
               {/* Aviso si ya generado */}
               {yaGenerado && !resultado && (
@@ -253,6 +249,7 @@ const GenerarCalendarioIA = () => {
                   </div>
                 </div>
               )}
+
               {/* Botones de Acción */}
               <div className="flex gap-3 pt-4 border-t mt-6">
                 <button
@@ -262,21 +259,17 @@ const GenerarCalendarioIA = () => {
                   Volver
                 </button>
                 {yaGenerado ? (
-                  // BOTÓN VER PARTIDOS (Si ya existe)
                   <button
-                    // IMPORTANTE: Asegúrate de tener esta ruta configurada en tu router
-                    // Si no existe, puedes enviarlo a `/torneos` por ahora
                     onClick={() => navigate(`/torneos`)}
-                    className="flex-1 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900  text-white px-6 py-4 rounded-xl font-bold transition text-lg flex items-center justify-center gap-2 shadow-lg"
+                    className="flex-1 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white px-6 py-4 rounded-xl font-bold transition text-lg flex items-center justify-center gap-2 shadow-lg"
                   >
                     <span>Ver Partidos</span>
                   </button>
                 ) : (
-                  // BOTÓN GENERAR (Si NO existe)
                   <button
-                    onClick={confirmarGnerarCalendario}
+                    onClick={confirmarGenerarCalendario}
                     disabled={generando || !costoEstimado}
-                    className="flex-1 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900  text-white px-6 py-4 rounded-xl font-bold transition disabled:opacity-50 disabled:cursor-not-allowed text-lg flex items-center justify-center gap-3"
+                    className="flex-1 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white px-6 py-4 rounded-xl font-bold transition disabled:opacity-50 disabled:cursor-not-allowed text-lg flex items-center justify-center gap-3"
                   >
                     {generando ? (
                       <span>Generando...</span>
